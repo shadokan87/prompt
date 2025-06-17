@@ -1,1 +1,0 @@
-the user can browse these articles: {{ articles }}gT

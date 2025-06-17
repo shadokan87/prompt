@@ -181,6 +181,14 @@ export default class Prompt {
     }
 
     /**
+     * Gets the variables currently in use for this prompt.
+     * @returns {Map<string, any>} A map containing the prompt variables and their values.
+     */
+    get variables() {
+        return this.#variables;
+    }
+
+    /**
      * Gets the interpolated value of the prompt.
      * @returns {string} The resulting string after all variable interpolation has been applied.
      */

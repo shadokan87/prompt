@@ -1,14 +1,17 @@
 # Prompt
 
-The best way to work and manage prompts in JavaScript/TypeScript. Universal and library-agnostic, Prompt works with your favorite SDK such as Vercel's AI SDK, Openai SDK, langchain, Openai api and more
+The best way to work with and manage prompts in your code-base. Universal and library-agnostic, Prompt is compatible your favorite SDK such as Vercel's AI SDK, Openai SDK, langchain, Openai api and more
 
-## Features
+## ✨ Features
 
-- Create prompts from strings or files
-- Variable interpolation using `{{variable}}` syntax
-- File-based prompts with path aliasing
-- Type-safe variable handling
-- Code block-aware templating
+- 📝 **String Templates** - Create prompts from strings with simple variable syntax
+- 🔄 **Variable Interpolation** - Dynamic content using `{{variable}}` syntax
+- 📁 **File-based Prompts** - Load prompts from files for better organization
+- 🗂️ **Path Aliasing** - Create shortcuts to frequently used prompt directories
+- 🛡️ **Type Safety** - Built with TypeScript for type-safe variable handling
+- 🔍 **Code Block Awareness** - Preserves code blocks in markdown
+- ❌ **Error Handling** - Clear errors when variables are missing
+- 🔌 **Universal** - Works with any LLM SDK or API
 
 ## Installation
 
@@ -104,61 +107,60 @@ const shoppingPrompt = new Prompt(load('./prompts/shopBrowser.md'), {
         'Bamboo Sundress'
     ]
 });
+console.log(shoppingPrompt.value);
+// Output: (the content of shopBrowser.md with interpolated variables)
 ```
 
 ### Using with Path Aliases
-
+Aliases allows you to use prompt files from various location in your code-base with less overhead
 ```typescript
 import Prompt, { load } from 'prompt-templating';
 
-// Define path aliases for better organization
+// Define path aliases for frequently used directories
 Prompt.pathAlias = {
-    templates: 'prompts/templates',
-    refund: 'prompts/refund'
+    chat: 'prompts/chat',           // Maps to chat-related prompts
+    support: 'prompts/customer',    // Maps to customer support prompts
+    system: 'prompts/system'        // Maps to system-level prompts
 };
 
-// Content of prompts/refund/shopRefund.md:
-/*
-You are a customer service AI handling a refund request.
+// You can use aliases in different ways:
 
-Order Details:
-- Order ID: {{orderId}}
-- Purchase Date: {{purchaseDate}}
-- Items: {{items}}
-- Refund Reason: {{reason}}
-
-Customer History:
-- Previous Orders: {{orderHistory}}
-- Customer Since: {{customerSince}}
-
-Instructions:
-1. Review the refund request details
-2. Check the return policy compliance
-3. Analyze customer purchase history
-4. Provide a response following company guidelines
-
-Generate a professional and empathetic response to the customer's refund request.
-*/
-
-const refundHandler = new Prompt(load('@refund/shopRefund.md'), {
-    orderId: 'ORD-123',
-    purchaseDate: '2025-06-10',
-    items: ['Premium Headphones', 'Wireless Charger'],
-    reason: 'Product not as described',
-    orderHistory: '5 orders in last 6 months',
-    customerSince: '2024'
+// 1. Direct file access using an alias
+const welcomePrompt = new Prompt(load('@chat/welcome.md'), {
+    username: 'Alice'
 });
 
-console.log(refundHandler.value);
+// 2. Nested directory structure with an alias
+const ticketPrompt = new Prompt(load('@support/tickets/create.md'), {
+    priority: 'high'
+});
 ```
+### Clone a prompt
+You can clone an existing prompt's template and variables in two ways:
 
-## Features
+```typescript
+import Prompt from 'prompt-templating';
 
-- **Variable Interpolation**: Use `{{variableName}}` syntax
-- **File Loading**: Load prompts from files with `load()`
-- **Path Aliases**: Define shortcuts for commonly used paths
-- **Type Safety**: Built with TypeScript for type-safe variables
-- **Error Handling**: Clear errors for missing variables
+// Basic AI instruction template
+const assistantTemplate = `You are a {{role}} assistant. Your task is to {{task}}.`;
+const assistantPrompt = new Prompt(assistantTemplate, {
+    role: 'technical',
+    task: 'explain complex programming concepts in simple terms'
+});
+
+// Complete clone - copies both template and variables
+const completeClone = new Prompt(assistantPrompt.promptString, assistantPrompt.variables);
+console.log(completeClone.value);
+// Output: You are a technical assistant. Your task is to explain complex programming concepts in simple terms.
+
+// Partial clone - reuses template with new variables
+const partialClone = new Prompt(assistantPrompt.promptString, {
+    role: "bug-finder",
+    task: "find any logic flaws or bug in this code"
+});
+console.log(partialClone.value);
+// Output: You are a bug-finder assistant. Your task is to find any logic flaws or bug in this code.
+```
 
 ## Documentation
 

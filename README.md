@@ -16,7 +16,7 @@ The best way to work with and manage prompts in your code-base. Universal and li
 ## Installation
 
 ```bash
-npm install prompt-templating
+npm install prompt
 ```
 
 ## Usage
@@ -24,7 +24,7 @@ npm install prompt-templating
 ### Using with Strings
 
 ```typescript
-import Prompt from 'prompt-templating';
+import Prompt from 'prompt';
 
 // Basic AI instruction template
 const assistantTemplate = `You are a {{role}} assistant. Your task is to {{task}}.`;
@@ -71,7 +71,7 @@ console.log(codeReviewPrompt.value);
 ### Using with Files
 
 ```typescript
-import Prompt, { load } from 'prompt-templating';
+import Prompt, { load } from 'prompt';
 
 // Content of prompts/shopBrowser.md:
 /*
@@ -114,7 +114,7 @@ console.log(shoppingPrompt.value);
 ### Using with Path Aliases
 Aliases allows you to use prompt files from various location in your code-base with less overhead
 ```typescript
-import Prompt, { load } from 'prompt-templating';
+import Prompt, { load } from 'prompt';
 
 // Define path aliases for frequently used directories
 Prompt.pathAlias = {
@@ -139,7 +139,7 @@ const ticketPrompt = new Prompt(load('@support/tickets/create.md'), {
 You can clone an existing prompt's template and variables in two ways:
 
 ```typescript
-import Prompt from 'prompt-templating';
+import Prompt from 'prompt';
 
 // Basic AI instruction template
 const assistantTemplate = `You are a {{role}} assistant. Your task is to {{task}}.`;
@@ -162,9 +162,45 @@ console.log(partialClone.value);
 // Output: You are a bug-finder assistant. Your task is to find any logic flaws or bug in this code.
 ```
 
+## API Reference
+
+### Static Properties
+
+| Name | Type | Description |
+|------|------|-------------|
+| `pathAlias` | `Record<string, string>` | A map of aliases to file paths for shortcut access to prompt directories |
+
+### Instance Properties
+
+| Name | Type | Description |
+|------|------|-------------|
+| `promptString` | `string` | Gets the original unprocessed prompt template |
+| `variables` | `Variables` | Gets the current variables map |
+| `value` | `string` | Gets the interpolated prompt with all variables replaced |
+
+### Outside of class functions
+
+| Name | Params | Return Type | Description |
+|------|--------|-------------|-------------|
+| `load()` | `relativePath: string` | `Load` | Creates a Load object for file-based prompts. Path can include aliases starting with '@'. Can throw `NamespaceUndefinedError` when using an undefined alias or `LoadFileReadError` when file reading fails |
+
+### Instance Methods
+
+| Name | Params | Return Type | Description |
+|------|--------|-------------|-------------|
+| `constructor()` | `prompt: string \| Load`<br>`variables?: Variables` | `Prompt` | Creates a new Prompt instance from string or file |
+| `setVariables()` | `variables: Variables` | `void` | Updates the variables used for interpolation. Throws `MissingVariablesError` if required variables are missing |
+
+### Types
+
+| Name | Type | Description |
+|------|------|-------------|
+| `Variables` | `Record<string, any>` | Type for variable key-value pairs used in templates |
+| `Load` | `{ load: true, relativePath: string }` | Configuration object for file-based prompts |
+
 ## Documentation
 
-For detailed documentation and examples, visit our [GitHub repository](https://github.com/yourusername/prompt-templating).
+For detailed documentation and examples, visit our [GitHub repository](https://github.com/shadokan87/prompt).
 
 ## License
 

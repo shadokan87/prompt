@@ -22,6 +22,13 @@ export class NamespaceUndefinedError extends Error {
     }
 }
 
+export class LoadFileReadError extends Error {
+    constructor(public filePath: string, public originalError: Error) {
+        super(`Failed to load prompt from ${filePath}: ${originalError.message}`);
+        this.name = "LoadFileReadError";
+    }
+}
+
 export type Load = { load: true, relativePath: string };
 
 /**
@@ -167,8 +174,10 @@ export default class Prompt {
             const content = readFileSync(fullPath, 'utf-8');
             return content;
         } catch (error) {
-            console.log(error);
-            throw new Error(`Failed to load prompt from ${fullPath}`);
+            if (error instanceof Error) {
+                throw new LoadFileReadError(fullPath, error);
+            }
+            throw error;
         }
     }
 

@@ -182,13 +182,13 @@ console.log(partialClone.value);
 
 | Name | Params | Return Type | Description |
 |------|--------|-------------|-------------|
-| `load()` | `relativePath: string` | `Load` | Creates a Load object for file-based prompts. Path can include aliases starting with '@'. Can throw `NamespaceUndefinedError` when using an undefined alias or `LoadFileReadError` when file reading fails |
+| `load()` | `relativePath: string` | `Load` | Creates a Load object for file-based prompts. Path can include aliases starting with '@'. Can throw `NamespaceUndefinedError` when using an undefined alias |
 
 ### Instance Methods
 
 | Name | Params | Return Type | Description |
 |------|--------|-------------|-------------|
-| `constructor()` | `prompt: string \| Load`<br>`variables?: Variables` | `Prompt` | Creates a new Prompt instance from string or file |
+| `constructor()` | `prompt: string \| Load`<br>`variables?: Variables` | `Prompt` | Creates a new Prompt instance from string or file. Throws `LoadFileReadError` when file reading fails |
 | `setVariables()` | `variables: Variables` | `void` | Updates the variables used for interpolation. Throws `MissingVariablesError` if required variables are missing |
 
 ### Types

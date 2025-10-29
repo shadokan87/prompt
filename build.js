@@ -15,7 +15,7 @@ async function buildProject() {
     // Build with esbuild
     try {
         await build({
-            entryPoints: ["./index.ts"],
+            entryPoints: ["./index.ts", "./Prompt.ts", "./utils.ts"],
             outdir: "./dist",
             platform: "node",
             format: "esm",

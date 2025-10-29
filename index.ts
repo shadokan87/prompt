@@ -1,4 +1,4 @@
-export { default as Prompt } from './Prompt';
+export { default as Prompt } from './Prompt.js';
 export { 
     load, 
     MissingVariablesError, 
@@ -6,4 +6,4 @@ export {
     LoadFileReadError,
     type Variables,
     type Load 
-} from './Prompt';
+} from './Prompt.js';

@@ -202,6 +202,16 @@ console.log(partialClone.value);
 
 For detailed documentation and examples, visit our [GitHub repository](https://github.com/shadokan87/prompt).
 
+## Changelog
+
+### Version 1.0.5
+
+**Features:**
+- Added `basePath` parameter to `load()` function - You can now specify a custom base path for loading prompt files, making it easier to use `__dirname` or other directory references instead of relying solely on `process.env.PWD`
+
+**Bug Fixes:**
+- Fixed `setVariables()` not properly resetting to original prompt template before re-interpolating variables - Previously, calling `setVariables()` multiple times would fail because it attempted to replace already-replaced placeholders
+
 ## License
 
 MIT

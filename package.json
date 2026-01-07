@@ -1,6 +1,6 @@
 {
   "name": "@fragola-ai/prompt",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Prompt interpolation and loading library for Node.js/TypeScript.",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -17,15 +17,15 @@
   ],
   "type": "module",
   "scripts": {
-    "build": "node build.js",
-    "prepublishOnly": "npm run build"
-  },
-  "publishConfig": {
-    "access": "public"
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage"
   },
   "devDependencies": {
-    "@types/node": "^20.0.0",
-    "esbuild": "^0.25.9"
+    "@types/bun": "latest",
+    "@types/node": "^20.10.0",
+    "@vitest/ui": "^4.0.16",
+    "vitest": "^1.1.0"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"

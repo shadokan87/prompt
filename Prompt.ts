@@ -29,7 +29,7 @@ export class LoadFileReadError extends Error {
     }
 }
 
-export type Load = { load: true, relativePath: string };
+export type Load = { load: true, relativePath: string, basePath?: string };
 
 /**
  * Creates a Load object to specify a prompt file location.
@@ -48,7 +48,7 @@ export type Load = { load: true, relativePath: string };
  * // Using path alias
  * load('prompts:myPrompt.txt')
  */
-export const load = (relativePath: string): Load => ({ load: true, relativePath });
+export const load = (relativePath: string, basePath?: string): Load => ({ load: true, relativePath, basePath });
 
 export default class Prompt {
     private static defaultVariableRegex = /\{\{(\s*[\w.]+\s*)\}\}/g;
@@ -83,7 +83,7 @@ export default class Prompt {
             this.#originalPrompt = prompt;
             this.#value = prompt;
         } else {
-            this.#originalPrompt = this.#load(prompt.relativePath);
+            this.#originalPrompt = this.#load(prompt.relativePath, prompt.basePath);
             this.#value = this.#originalPrompt;
         }
         this.setVariables(variables);
@@ -122,6 +122,7 @@ export default class Prompt {
      */
     setVariables(variables: Variables) {
         this.#variables = variables;
+        this.#value = this.#originalPrompt; // Reset to original before re-interpolating
         const allMatch = Array.from(this.#originalPrompt.matchAll(this.#variableRegex))
             .filter(match => !this.#isInsideCodeBlock(match.index!, this.#originalPrompt))
             .map(match => {
@@ -151,7 +152,9 @@ export default class Prompt {
         applyReplace.forEach(replace => replace());
     }
 
-    #load(relativePath: string): string {
+    #load(relativePath: string, basePath?: string): string {
+        if (!basePath)
+            basePath = this.#basePath;
         let _relativePath = ((): string => {
             const split = relativePath.split("/");
             if (split.length > 1) {
@@ -167,7 +170,7 @@ export default class Prompt {
             return relativePath;
         })();
 
-        let fullPath = path.join(this.#basePath || "./", _relativePath);
+        let fullPath = path.join(basePath || "./", _relativePath);
         if (!fullPath.split("/").at(-1)?.includes("."))
             fullPath = `${fullPath}.md`;
         try {

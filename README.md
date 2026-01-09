@@ -204,7 +204,7 @@ For detailed documentation and examples, visit our [GitHub repository](https://g
 
 ## Changelog
 
-### Version 1.0.5
+### Version 1.0.7
 
 **Features:**
 - Added `basePath` parameter to `load()` function - You can now specify a custom base path for loading prompt files, making it easier to use `__dirname` or other directory references instead of relying solely on `process.env.PWD`

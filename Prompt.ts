@@ -38,7 +38,6 @@ export type Load = { load: true, relativePath: string, basePath?: string };
  * Path aliases can be used to reduce path overhead.
  * 
  * @param {string} relativePath - The relative path to the prompt file. Can include path aliases.
- * @param {string} [basePath] - Optional base path to resolve the relative path against. If not provided, uses the process working directory.
  * @returns {Load} An object containing the load flag and the relative path to the prompt file
  * 
  * @example

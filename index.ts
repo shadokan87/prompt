@@ -7,4 +7,5 @@ export {
     type Variables,
     type Load 
 } from './Prompt.js';
+export { Prompt };
 export default Prompt;
